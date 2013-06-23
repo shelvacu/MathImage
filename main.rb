@@ -6,15 +6,15 @@ width = ARGV[1].to_i
 height = ARGV[2].to_i || width
 
 def r(x,y)
-  x*x/100
+  (x*x)**(1/2.0)
 end
 
 def g(x,y)
-  y*y/100
+  (y*y)**(1/2.0)
 end
 
 def b(x,y)
-  x*y/100
+  (x*y)**(1/2.0)
 end
 
 error("#{filename} already exists!") if File.exist?(filename)
