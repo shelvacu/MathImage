@@ -6,30 +6,37 @@ error "usage: gif.rb filename.gif <frames> <width> [<height>]" unless ARGV.lengt
 filename = ARGV[0]
 num_frames = ARGV[1].to_i
 width = ARGV[2].to_i
-height = ARGV[3].to_i || width
+height = ARGV[3] || width
+height = height.to_i
 
 def r(x,y,t)
-  x = x/10
-  y = y/10
-  Math.sin(x * y + t / 10) * 200
+  # x = x/10
+  # y = y/10
+  # Math.sin(x * y + t / 10) * 200
+  (t)+Math.sqrt(x*y)
 end
+puts "r(1.0,1.0,1.0) = #{r(1.0,1.0,1.0)}"
+puts "r(300.0,500.0,33.0) = #{r(300.0,500.0,33.0)}"
 
 def g(x,y,t)
-  x = x/100
-  y = y/100
-  Math.sin(x * y + t / 10) * 200
+  # x = x/100
+  # y = y/100
+  # Math.sin(x * y + t / 10) * 200
+  (t/2)+Math.sqrt(x*y)
 end
 
 def b(x,y,t)
-  Math.sin(x * y + t / 10) * 200
+  # Math.sin(x * y + t / 10) * 200
+  (t/3)+Math.sqrt(x*y)
 end
 
-#raise("#{filename} already exists!") if File.exist?(filename)
+raise("#{filename} already exists!") if File.exist?(filename)
 
 # $img = ChunkyPNG::Image.new(width,height)
 $thingy = (1/256.0)*QuantumRange
 threads = []
 frames = ImageList.new
+puts "starting?"
 num_frames.times.with_progress("Making image") do |t|
   #if threads.length >= 4
   #  threads.first.join
@@ -45,6 +52,10 @@ num_frames.times.with_progress("Making image") do |t|
       r = r(x,y,t).to_i % 256
       g = g(x,y,t).to_i % 256
       b = b(x,y,t).to_i % 256
+      r *= $thingy
+      g *= $thingy
+      b *= $thingy
+      puts "white point at #{x},#{y},#{t}" if r == 255 && g == 255 && b==255
       frame.color_point(x,y,Pixel.new(r,g,b,0))
       #puts 'omg' if r == 0 && g == 0 && b == 0
       #frame += [r,g,b]
