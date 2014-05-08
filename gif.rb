@@ -2,7 +2,9 @@ require 'RMagick'
 require 'progress'
 include Magick
 
-error "usage: gif.rb filename.gif <frames> <width> [<height>]" unless ARGV.length.between?(3,4)
+unless ARGV.length.between?(3,4)
+  puts "usage: gif.rb filename.gif <frames> <width> [<height>]"
+end 
 filename = ARGV[0]
 num_frames = ARGV[1].to_i
 width = ARGV[2].to_i
@@ -15,8 +17,8 @@ def r(x,y,t)
   # Math.sin(x * y + t / 10) * 200
   (t)+Math.sqrt(x*y)
 end
-puts "r(1.0,1.0,1.0) = #{r(1.0,1.0,1.0)}"
-puts "r(300.0,500.0,33.0) = #{r(300.0,500.0,33.0)}"
+#puts "r(1.0,1.0,1.0) = #{r(1.0,1.0,1.0)}"
+#puts "r(300.0,500.0,33.0) = #{r(300.0,500.0,33.0)}"
 
 def g(x,y,t)
   # x = x/100
@@ -32,6 +34,7 @@ end
 
 raise("#{filename} already exists!") if File.exist?(filename)
 
+puts "warning: this may take awhile"
 # $img = ChunkyPNG::Image.new(width,height)
 $thingy = (1/256.0)*QuantumRange
 threads = []

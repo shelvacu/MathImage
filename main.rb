@@ -5,6 +5,14 @@ filename = ARGV[0]
 width = ARGV[1].to_i
 height = ARGV[2].to_i || width
 
+if filename.nil? || width.nil?
+  puts <<END
+Usage: ruby main.rb <filename> <width> [height]
+if height is omitted it is assumed to be the same as the width
+END
+  exit
+end
+
 def r(x,y)
   (x*x)**(1/2.0)
 end
